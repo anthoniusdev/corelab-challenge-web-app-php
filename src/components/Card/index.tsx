@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Star, X, Edit, PaintBucket, Check } from 'lucide-react';
 import { Task } from '../../types/Task';
-import { on } from 'events';
 
 interface CardProps {
   task: Task;
@@ -18,18 +17,18 @@ const Card: React.FC<CardProps> = ({ task, onFavoriteToggle, onDelete }) => {
   const [editedDescription, setEditedDescription] = useState(task.description || '');
 
   const colorOptions = [
-    { color: 'bg-[#BAE2FF]' },    
-    { color: 'bg-[#B9FFDD]' },   
-    { color: 'bg-[#FFE8AC]' },   
-    { color: 'bg-[#FFCAB9]' },    
-    { color: 'bg-[#F99494]' },         
-    { color: 'bg-[#9DD6FF]' },    
+    { color: 'bg-[#BAE2FF]' },
+    { color: 'bg-[#B9FFDD]' },
+    { color: 'bg-[#FFE8AC]' },
+    { color: 'bg-[#FFCAB9]' },
+    { color: 'bg-[#F99494]' },
+    { color: 'bg-[#9DD6FF]' },
     { color: 'bg-[#ECA1FF]' },
-    { color: 'bg-[#DAFF8B]' }, 
-    { color: 'bg-[#FFA285]' },   
-    { color: 'bg-[#CDCDCD]' },     
-    { color: 'bg-[#979797]' },      
-    { color: 'bg-[#A99A7C]' }    
+    { color: 'bg-[#DAFF8B]' },
+    { color: 'bg-[#FFA285]' },
+    { color: 'bg-[#CDCDCD]' },
+    { color: 'bg-[#979797]' },
+    { color: 'bg-[#A99A7C]' }
   ];
 
   const handleDelete = async () => {
@@ -121,8 +120,8 @@ const Card: React.FC<CardProps> = ({ task, onFavoriteToggle, onDelete }) => {
 
 
   return (
-    <div className="flex w-full items-center justify-center">
-      <div className={`relative max-w-4/5 lg:max-w-16/18 w-full h-110 ${cardColor} rounded-4xl shadow-md transition-all duration-300 transform hover:drop-shadow-2xl`}>
+    <div className="flex w-full items-center relative justify-center">
+      <div className={`relative max-w-4/5 lg:max-w-16/18 w-full min-h-[420px] max-h-[520px] flex flex-col ${cardColor} rounded-4xl shadow-md transition-all duration-300 transform hover:drop-shadow-2xl`}>
         <div className="flex justify-between items-center py-4 px-6 border-b-2 border-[#D9D9D9]">
           {isEditing ? (
             <div className="flex items-center w-full">
@@ -157,8 +156,7 @@ const Card: React.FC<CardProps> = ({ task, onFavoriteToggle, onDelete }) => {
           )}
         </div>
 
-        {/* Área de descrição */}
-        <div className="p-6 h-82 overflow-auto">
+        <div className="flex-grow overflow-auto p-6">
           {isEditing ? (
             <textarea
               value={editedDescription}
@@ -177,45 +175,45 @@ const Card: React.FC<CardProps> = ({ task, onFavoriteToggle, onDelete }) => {
           )}
         </div>
 
-        {/* Footer com ícones */}
-        <div className="flex justify-between items-center p-2">
-          <div className="flex space-x-2">
-            <button
-              className={`p-1 cursor-pointer rounded-full transition-all duration-200 ${isEditing ? 'bg-blue-200 text-blue-600' : 'hover:bg-gray-200 text-gray-500'}`}
-              onClick={toggleEditMode}
-            >
-              <Edit size={18} />
-            </button>
-            <div className="relative">
+        <div className="p-2 border-t border-[#D9D9D9]">
+          <div className="flex justify-between items-center">
+            <div className="flex space-x-2">
               <button
-                className={`p-1 cursor-pointer rounded-full hover:bg-gray-200 ${showColorPalette ? 'bg-orange-200' : ''} transition-all duration-200`}
-                onClick={toggleColorPalette}
+                className={`p-1 cursor-pointer rounded-full transition-all duration-200 ${isEditing ? 'bg-blue-200 text-blue-600' : 'hover:bg-gray-200 text-gray-500'}`}
+                onClick={toggleEditMode}
               >
-                <PaintBucket size={18} className={`${showColorPalette ? 'text-orange-500' : 'text-gray-500'}`} />
+                <Edit size={18} />
               </button>
+              <div className="relative">
+                <button
+                  className={`p-1 cursor-pointer rounded-full hover:bg-gray-200 ${showColorPalette ? 'bg-orange-200' : ''} transition-all duration-200`}
+                  onClick={toggleColorPalette}
+                >
+                  <PaintBucket size={18} className={`${showColorPalette ? 'text-orange-500' : 'text-gray-500'}`} />
+                </button>
 
-              {/* Paleta de cores */}
-              {showColorPalette && (
-                <div className="grid grid-cols-6 gap-2 lg:flex lg:flex-row items-center justify-center fixed mt-2 lg:left-4 bg-white rounded-sm p-2 shadow-lg z-50 transition-all duration-300 ease-in-out animate-fadeIn">
-                  {colorOptions.map((option, index) => (
-                    <button
-                      key={index}
-                      onClick={() => changeCardColor(option.color)}
-                      className={`w-8 h-8 rounded-full ${option.color} transition-transform duration-200 hover:scale-110 focus:outline-none`}
-                      aria-label={`Select color ${index}`}
-                    />
-                  ))}
-                </div>
-              )}
+                {showColorPalette && (
+                  <div className="grid grid-cols-6 z-100 gap-2 lg:flex lg:flex-row bottom-12 items-center justify-center fixed mt-2 lg:left-4 bg-white rounded-sm p-2 shadow-lg z-50 transition-all duration-300 ease-in-out animate-fadeIn">
+                    {colorOptions.map((option, index) => (
+                      <button
+                        key={index}
+                        onClick={() => changeCardColor(option.color)}
+                        className={`w-8 h-8 rounded-full ${option.color} transition-transform duration-200 hover:scale-110 focus:outline-none`}
+                        aria-label={`Select color ${index}`}
+                      />
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
 
-          <button
-            onClick={handleDelete}
-            className="p-1 rounded-full hover:bg-gray-200 transition-all duration-200"
-          >
-            <X size={18} className="text-gray-500" />
-          </button>
+            <button
+              onClick={handleDelete}
+              className="p-1 rounded-full hover:bg-gray-200 transition-all duration-200"
+            >
+              <X size={18} className="text-gray-500" />
+            </button>
+          </div>
         </div>
       </div>
     </div>
